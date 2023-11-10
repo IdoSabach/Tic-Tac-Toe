@@ -1,0 +1,44 @@
+*,
+*::after,
+*::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.popup-start{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+
+}
+
+.main-box-of-popup{
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.text-of-header{
+  padding: 15px;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mini-input{
+  margin-bottom: 15px;
+}
+
+.startgame{
+  margin-bottom:15px ;
+  padding: 10px;
+  cursor: pointer;
+}
