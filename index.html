@@ -7,14 +7,42 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+
+    <header class="header">Tic Tac Toe</header>
+    <nav class="name-of-player">
+      <div class="name player">player:ido</div>
+      <div class="name computer">computer:root</div>
+    </nav>
+    <main class="main">
+      <div class="board-game">
+        <div class="box">0</div>
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
+        <div class="box">6</div>
+        <div class="box">7</div>
+        <div class="box">8</div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      Built by Ido Sabach <a href="https://github.com/IdoSabach"><img width="15" height="15" src="https://img.icons8.com/ios-filled/50/github.png" alt="github"/></a>
+    </footer>
+
+
+
+
+
     <div class="popup-start">
       <div class="main-box-of-popup">
-        <h1 class="text-of-header">Welcome to my game</h1>
+        <h1 class="text-of-header">Welcome to Tic Tac Toe</h1>
         <div class="input-div">
           <form class="form" action="">
             <div class="mini-input">
-              <label for="name">What is your name?</label><br />
-              <input type="text" name="name" required />
+              <!-- <label for="name">What is your name?</label><br /> -->
+              <input class="input-of-popup" type="text" name="name" required placeholder="What is your name?"/>
             </div>
             <div class="btn-div">
               <button class="startgame" type="submit">Start Game</button>

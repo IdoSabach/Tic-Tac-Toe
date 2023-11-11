@@ -8,21 +8,27 @@ const main = (function () {
   const player = {
     name: "player",
     marker: "x",
+    arrPlayer: []
   };
 
   const computer = {
     name: "computer",
     marker: "o",
+    arrComputer: []
   };
+
+  const winningMovies = [  
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+  ]
 
   let arrOf = [player.marker, computer.marker];
-
-  const yourTurn = () => {
-    let currIndex = 0;
-    let currElement = arrOf[currIndex];
-    currIndex = (currIndex + 1) % arrOf.length;
-    return currElement
-  };
 
   const finishGame = () => {
     if (
