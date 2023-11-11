@@ -1,32 +1,51 @@
 const main = (function () {
+
+  const yourName = document.querySelector(".name-player");
+  const popup = document.querySelector(".popup-start");
+  const input = document.querySelector(".input-of-popup");
+  const btn = document.querySelector(".startGame");
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    const nameUser = input.value;
+    if(nameUser===""){
+      alert("Enter your name!")
+    }else{
+      popup.style.display = "none";
+      yourName.textContent = `player: ${nameUser}`;
+    }
+    
+  });
+  
   const arr = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
 
+
   const player = {
     name: "player",
     marker: "x",
-    arrPlayer: []
+    arrPlayer: [],
   };
 
   const computer = {
     name: "computer",
     marker: "o",
-    arrComputer: []
+    arrComputer: [],
   };
 
-  const winningMovies = [  
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-  ]
+  const winningMovies = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
 
   let arrOf = [player.marker, computer.marker];
 

@@ -7,11 +7,10 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-
     <header class="header">Tic Tac Toe</header>
     <nav class="name-of-player">
-      <div class="name player">player:ido</div>
-      <div class="name computer">computer:root</div>
+      <div class="name-player">player: *****</div>
+      <div class="name-computer">computer:root</div>
     </nav>
     <main class="main">
       <div class="board-game">
@@ -28,12 +27,16 @@
     </main>
 
     <footer class="footer">
-      Built by Ido Sabach <a href="https://github.com/IdoSabach"><img width="15" height="15" class="github" src="https://img.icons8.com/ios-filled/50/github.png" alt="github"/></a>
+      Built by Ido Sabach
+      <a href="https://github.com/IdoSabach"
+        ><img
+          width="15"
+          height="15"
+          class="github"
+          src="https://img.icons8.com/ios-filled/50/github.png"
+          alt="github"
+      /></a>
     </footer>
-
-
-
-
 
     <div class="popup-start">
       <div class="main-box-of-popup">
@@ -41,11 +44,18 @@
         <div class="input-div">
           <form class="form" action="">
             <div class="mini-input">
-              <!-- <label for="name">What is your name?</label><br /> -->
-              <input class="input-of-popup" type="text" name="name" required placeholder="What is your name?"/>
+              <label for="input-of-popup"></label><br />
+              <input
+                class="input-of-popup"
+                type="text"
+                name="input-of-popup"
+                placeholder="What is your name?"
+                maxlength="5"
+                required
+              />
             </div>
             <div class="btn-div">
-              <button class="startgame" type="submit">Start Game</button>
+              <button class="startGame" type="submit">Start Game</button>
             </div>
           </form>
         </div>
