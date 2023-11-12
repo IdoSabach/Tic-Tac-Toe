@@ -21,10 +21,11 @@ const PubSub = (function () {
 })();
 
 const main = (function () {
-  const myArray = Array(9).fill(null);
+  const arrOfBoard = Array(9).fill(null);
+
   function getInMarker(num) {
-    myArray[num] = curr.marker;
-    console.log(myArray);
+    arrOfBoard[num] = curr.marker;
+    console.log(arrOfBoard);
   }
 
   const player = {
@@ -52,15 +53,16 @@ const main = (function () {
     }
 
     if (finishGame(curr.moves)) {
-      if (curr.name === player) {
+      if (curr.name === player.name) {
         PubSub.publish("gameResult", `${curr.name} win!!!`);
-      } else if (curr.name === computer) {
+      } else if (curr.name === computer.name) {
         PubSub.publish("gameResult", `${curr.name} lose!!!`);
       }
       restartGame();
     } else if (player.moves.length + computer.moves.length === 9) {
-      PubSub.publish("gameResult", "It's a draw!!!");
-      restartGame();
+      // interFace.RestartBtn.style.display = 'flex';
+      alert("draw")
+      restartGame()
     } else {
       PubSub.publish("switchPlayer");
     }
@@ -80,7 +82,7 @@ const main = (function () {
   }
 
   function checkIfEmpty(index) {
-    if (myArray[index] === null) {
+    if (arrOfBoard[index] === null) {
       return true;
     } else {
       return false;
@@ -118,7 +120,8 @@ const main = (function () {
     checkIfEmpty,
     switchPlayer,
     curr,
-    myArray,
+    arrOfBoard,
+    restartGame,
   };
 })(PubSub);
 
@@ -128,6 +131,8 @@ const interFace = (function (main) {
   const input = document.querySelector(".input-of-popup");
   const btn = document.querySelector(".startGame");
   const box = document.querySelectorAll(".box");
+
+  const RestartBtn = document.querySelector(".restart-btn"); 
 
   main.PubSub.subscribe("switchPlayer", main.switchPlayer);
   main.PubSub.subscribe("cleanBoard", cleanBoard);
@@ -144,6 +149,10 @@ const interFace = (function (main) {
     }
   });
 
+  RestartBtn.addEventListener('click',()=>{
+    main.restartGame()
+  })
+
   box.forEach((btnOdBoard) => {
     btnOdBoard.addEventListener("click", function (e) {
       let num = e.target.dataset.num;
@@ -153,11 +162,12 @@ const interFace = (function (main) {
       main.PubSub.publish("gameFlow", num);
     });
   });
+
   function cleanBoard() {
     box.forEach((btn) => {
       btn.textContent = "";
     });
-    main.myArray.fill(null);
+    main.arrOfBoard.fill(null);
   }
 
   function showGameResult(result) {

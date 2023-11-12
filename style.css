@@ -24,8 +24,8 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  /* display: none; */
+  /* display: flex; */
+  display: none;
 }
 
 .main-box-of-popup{
@@ -113,4 +113,19 @@ body{
 
 .github{
   transform: rotate(360);
+}
+
+.restart-btn{
+  font-size: 40px;
+  padding: 10px;
+  margin-top: 50px;
+  border-radius: 15px;
+  border-style: none;
+  background-color: #9a8c98;
+  /* display: flex; */
+  display: none;
+}
+.restart-btn:hover{
+  background-color: #ccbbc9;
+  cursor: pointer;
 }
