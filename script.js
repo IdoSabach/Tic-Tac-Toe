@@ -1,5 +1,4 @@
 const main = (function () {
-
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
@@ -19,7 +18,6 @@ const main = (function () {
       yourName.textContent = `player: ${nameUser}`;
     }
   });
-
 
   const arr = [
     ["", "", ""],
@@ -52,16 +50,16 @@ const main = (function () {
 
   let arrOf = [player.marker, computer.marker];
 
-  function finishGame(arr){
-    const win = winningMovies.some((winning)=>
+  function finishGame(arr) {
+    const win = winningMovies.some((winning) =>
       winning.every((here) => arr.includes(here))
-    )
-    if(win){
-      alert('you wun')
-    }else{
-      alert("no")
+    );
+    if (win) {
+      alert("you wun");
+    } else {
+      alert("no");
     }
-  };
+  }
 
   const startGame = () => {
     for (let i = 0; i < arr.length; i++) {
