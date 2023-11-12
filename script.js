@@ -60,9 +60,9 @@ const main = (function () {
       }
       restartGame();
     } else if (player.moves.length + computer.moves.length === 9) {
-      // interFace.RestartBtn.style.display = 'flex';
-      alert("draw")
-      restartGame()
+      interFace.RestartBtn.style.display = 'flex';
+      alert("Draw!!")
+      // restartGame()
     } else {
       PubSub.publish("switchPlayer");
     }
@@ -125,7 +125,7 @@ const main = (function () {
   };
 })(PubSub);
 
-const interFace = (function (main) {
+const interFace = (function () {
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
@@ -172,5 +172,8 @@ const interFace = (function (main) {
 
   function showGameResult(result) {
     alert(result);
+  }
+  return{
+    RestartBtn,
   }
 })(main);
