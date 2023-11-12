@@ -5,8 +5,8 @@ const main = (function () {
   const btn = document.querySelector(".startGame");
 
   const box = document.querySelectorAll(".box");
-  const borderPlayer = document.querySelector(".name-player");
-  const borderComputer = document.querySelector(".name-computer");
+  // const borderPlayer = document.querySelector(".name-player");
+  // const borderComputer = document.querySelector(".name-computer");
 
   btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -19,6 +19,14 @@ const main = (function () {
     }
   });
 
+  box.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      btn.textContent = curr.marker
+      let num = e.target.dataset.num;
+      gameFlow(num);
+    });
+  });
+
   const arr = [
     ["", "", ""],
     ["", "", ""],
@@ -28,14 +36,42 @@ const main = (function () {
   const player = {
     name: "player",
     marker: "x",
-    arrPlayer: [],
+    arrOf: [],
   };
 
   const computer = {
     name: "computer",
     marker: "o",
-    arrComputer: [],
+    arrOf: [],
   };
+
+  let curr = player;
+
+  function gameFlow(index) {
+    if(!checkIfEmpty(index)){
+      return
+    }
+    
+    curr.arrOf.push(index);
+    console.log(curr.arrOf);
+
+    if (finishGame(curr.arrOf)) {
+      alert(`${curr.name} win!!!`);
+    } else if (player.arrOf.length + computer.arrOf.length === 9) {
+      alert("draw!!!");
+      restartGame();
+    } else {
+      if (curr === player) {
+        curr = computer;
+      } else {
+        curr = player;
+      }
+    }
+  }
+
+  function checkIfEmpty(index){
+    return !player.arrOf.includes(index) && !computer.arrOf.includes(index)
+  }
 
   const winningMovies = [
     [0, 1, 2],
@@ -48,32 +84,20 @@ const main = (function () {
     [2, 4, 6],
   ];
 
-  let arrOf = [player.marker, computer.marker];
-
-  function finishGame(arr) {
-    const win = winningMovies.some((winning) =>
-      winning.every((here) => arr.includes(here))
+  function finishGame(arrToCheck) {
+    return winningMovies.some((winningCombo) =>
+      winningCombo.every((position) => arrToCheck.includes(position))
     );
-    if (win) {
-      alert("you wun");
-    } else {
-      alert("no");
-    }
   }
 
-  const startGame = () => {
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr[i].length; j++) {
-        let random = Math.floor(Math.random() * arrOf.length);
-        arr[i][j] = arrOf[random];
-      }
-    }
-    console.log(arr);
-    finishGame();
-  };
+  function restartGame() {
+    player.arrOf = [];
+    computer.arrOf = [];
+    curr = player;
+  }
+
 
   return {
-    startGame,
-    finishGame,
+    gameFlow,
   };
 })();

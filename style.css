@@ -102,6 +102,10 @@ body{
   /* padding: 80px; */
   border-style: solid;
   cursor: pointer;
+  font-size: 80px;
+  text-align: center;
+  display: grid;
+  align-items: center;
 }
 .box:hover{
   background-color: #dad2ce;
