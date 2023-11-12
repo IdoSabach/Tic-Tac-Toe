@@ -4,25 +4,28 @@ const main = (function () {
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
   const btn = document.querySelector(".startGame");
+
+  const box = document.querySelectorAll(".box");
+  const borderPlayer = document.querySelector(".name-player");
+  const borderComputer = document.querySelector(".name-computer");
+
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-    
     const nameUser = input.value;
-    if(nameUser===""){
-      alert("Enter your name!")
-    }else{
+    if (nameUser === "") {
+      alert("Enter your name!");
+    } else {
       popup.style.display = "none";
       yourName.textContent = `player: ${nameUser}`;
     }
-    
   });
-  
+
+
   const arr = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
-
 
   const player = {
     name: "player",
@@ -49,63 +52,14 @@ const main = (function () {
 
   let arrOf = [player.marker, computer.marker];
 
-  const finishGame = () => {
-    if (
-      (arr[0][0] === player.marker &&
-        arr[0][1] === player.marker &&
-        arr[0][2] === player.marker) ||
-      (arr[1][0] === player.marker &&
-        arr[1][1] === player.marker &&
-        arr[1][2] === player.marker) ||
-      (arr[2][0] === player.marker &&
-        arr[2][1] === player.marker &&
-        arr[2][2] === player.marker) ||
-      (arr[0][0] === player.marker &&
-        arr[1][0] === player.marker &&
-        arr[2][0] === player.marker) ||
-      (arr[0][1] === player.marker &&
-        arr[1][1] === player.marker &&
-        arr[2][1] === player.marker) ||
-      (arr[0][2] === player.marker &&
-        arr[1][2] === player.marker &&
-        arr[2][2] === player.marker) ||
-      (arr[0][0] === player.marker &&
-        arr[1][1] === player.marker &&
-        arr[2][2] === player.marker) ||
-      (arr[2][0] === player.marker &&
-        arr[1][1] === player.marker &&
-        arr[0][2] === player.marker)
-    ) {
-      alert(`${player.name} you win!`);
-    } else if (
-      (arr[0][0] === computer.marker &&
-        arr[0][1] === computer.marker &&
-        arr[0][2] === computer.marker) ||
-      (arr[1][0] === computer.marker &&
-        arr[1][1] === computer.marker &&
-        arr[1][2] === computer.marker) ||
-      (arr[2][0] === computer.marker &&
-        arr[2][1] === computer.marker &&
-        arr[2][2] === computer.marker) ||
-      (arr[0][0] === computer.marker &&
-        arr[1][0] === computer.marker &&
-        arr[2][0] === computer.marker) ||
-      (arr[0][1] === computer.marker &&
-        arr[1][1] === computer.marker &&
-        arr[2][1] === computer.marker) ||
-      (arr[0][2] === computer.marker &&
-        arr[1][2] === computer.marker &&
-        arr[2][2] === computer.marker) ||
-      (arr[0][0] === computer.marker &&
-        arr[1][1] === computer.marker &&
-        arr[2][2] === computer.marker) ||
-      (arr[2][0] === computer.marker &&
-        arr[1][1] === computer.marker &&
-        arr[0][2] === computer.marker)
-    ) {
-      alert(`${computer.name} you win!`);
-    } else {
-      alert("Draw");
+  function finishGame(arr){
+    const win = winningMovies.some((winning)=>
+      winning.every((here) => arr.includes(here))
+    )
+    if(win){
+      alert('you wun')
+    }else{
+      alert("no")
     }
   };
 
@@ -122,8 +76,6 @@ const main = (function () {
 
   return {
     startGame,
+    finishGame,
   };
 })();
-
-// let random = Math.floor(Math.random() * arrOf.length)
-// arr[i][j] = arrOf[random]

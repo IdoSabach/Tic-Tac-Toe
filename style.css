@@ -25,9 +25,7 @@ body{
   left: 50%;
   transform: translate(-50%, -50%);
   /* display: flex; */
-  display: none; /*here*/ 
-  
-
+  display: none;
 }
 
 .main-box-of-popup{
@@ -99,7 +97,9 @@ body{
 }
 
 .box{
-  padding: 80px;
+  width: 150px;
+  height: 150px;
+  /* padding: 80px; */
   border-style: solid;
   cursor: pointer;
 }
