@@ -16,24 +16,34 @@ body{
   flex-direction: column;
   align-items: center;
   min-height: 100%;
-  background-color: #f2e9e4;
+  background-color: #edf6f9;
+  font-family: 'Raleway', sans-serif;
 }
 
 .popup-start{
+  background: rgba(0,0,0,0.6);
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* display: flex; */
-  display: none;
+  display: flex;
+  /* display: none; */
+  align-items: center;
+  justify-content: center;
+  
 }
 
 .main-box-of-popup{
-  background-color: #c9ada7;
+  background-color: #edf6f9;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 15px;
+  border-style: solid;
+  border-color: #00454b;
+  
 }  
 
 .text-of-header{
@@ -44,18 +54,22 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 .mini-input{
   margin-bottom: 15px;
 }
-
+ 
 .startGame{
   margin-bottom:15px ;
   padding: 10px;
   cursor: pointer;
   border-radius: 10px;
-  border-style: none;
+  border-style: solid;
+  border-color: #00454b;
+  background-color: #d7ecea;
+  color: #006d77;
 }
 
 .input-of-popup{
@@ -70,7 +84,7 @@ body{
   padding: 10px;
   width: 100%;
   text-align: center;
-  background-color: #9a8c98;
+  background-color: #83c5be;
 }
 
 .name-of-player{
@@ -106,13 +120,15 @@ body{
   text-align: center;
   display: grid;
   align-items: center;
+  color: #006d77;
+  margin: -2px;
+  background-color: #d7ecea;
+  border-color: #00454b;
+
+  
 }
 .box:hover{
-  background-color: #dad2ce;
-}
-
-.github{
-  transform: rotate(360);
+  background-color: #afd4d1;
 }
 
 .restart-btn{
@@ -120,12 +136,53 @@ body{
   padding: 10px;
   margin-top: 50px;
   border-radius: 15px;
-  border-style: none;
-  background-color: #9a8c98;
-  /* display: flex; */
-  display: none;
+  border-style: solid;
+  border-color: #00454b;
+  background-color: #d7ecea;
+  color: #006d77;
+  display: flex;
+  /* display: none; */
 }
 .restart-btn:hover{
-  background-color: #ccbbc9;
+  background-color: #afd4d1;
   cursor: pointer;
+}
+
+
+@media(max-width:600px){
+  .text-of-header{
+    font-size: 40px;
+    padding: 20px;
+    text-align: center;
+  }
+  .form{
+    padding: 0px 20px 0px 20px ;
+  }
+  .startGame{
+    padding: 10px 20px 10px 20px;
+    font-size: 20px;
+    color: black;
+  }
+
+  .header{
+    font-size: 52px;
+  }
+
+  .name-of-player{
+    font-size: 28px;
+    min-width: 350px;
+  }
+
+  .box{
+    font-size: 60px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .box:hover{
+    background-color: #d7ecea;
+  }
+  .restart-btn{
+    font-size: 28px;
+  }
 }
