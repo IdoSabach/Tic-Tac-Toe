@@ -3,10 +3,7 @@ const main = (function () {
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
   const btn = document.querySelector(".startGame");
-
   const box = document.querySelectorAll(".box");
-  // const borderPlayer = document.querySelector(".name-player");
-  // const borderComputer = document.querySelector(".name-computer");
 
   btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -19,30 +16,35 @@ const main = (function () {
     }
   });
 
-  box.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      btn.textContent = curr.marker
+  box.forEach((btnOdBoard) => {
+    btnOdBoard.addEventListener("click", function (e) {
       let num = e.target.dataset.num;
+      if(checkIfEmpty(num)){
+        btnOdBoard.textContent = curr.marker
+      }
       gameFlow(num);
     });
   });
 
-  const arr = [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
-  ];
+  const myArray = Array(9).fill(null);
+  function getInMarker(num){
+    myArray[num] = curr.marker
+    console.log(myArray)
+  }
+  
 
   const player = {
-    name: "player",
+    name: input.value,
     marker: "x",
-    arrOf: [],
+    arrToWin: [],
   };
 
+  
+
   const computer = {
-    name: "computer",
+    name: "root",
     marker: "o",
-    arrOf: [],
+    arrToWin: [],
   };
 
   let curr = player;
@@ -50,27 +52,43 @@ const main = (function () {
   function gameFlow(index) {
     if(!checkIfEmpty(index)){
       return
+    }else{
+      getInMarker(index)
+      curr.arrToWin.push(index);
+      console.log(curr.arrToWin);
     }
-    
-    curr.arrOf.push(index);
-    console.log(curr.arrOf);
 
-    if (finishGame(curr.arrOf)) {
-      alert(`${curr.name} win!!!`);
-    } else if (player.arrOf.length + computer.arrOf.length === 9) {
+    if (finishGame(curr.arrToWin)) {
+
+      if(curr.name === player){
+        alert(`${curr.name} win!!!`);
+      }else if(curr.name === computer){
+        alert(`${curr.name} lose!!!`);
+      }
+      restartGame();
+
+    } else if (player.arrToWin.length + computer.arrToWin.length === 9) {
       alert("draw!!!");
       restartGame();
     } else {
-      if (curr === player) {
-        curr = computer;
-      } else {
-        curr = player;
-      }
+      switchPlayer();
+    }
+  }
+
+  function switchPlayer(){
+    if(curr===player){
+      curr = computer
+    }else{
+      curr = player
     }
   }
 
   function checkIfEmpty(index){
-    return !player.arrOf.includes(index) && !computer.arrOf.includes(index)
+    if(myArray[index]===null){
+      return true
+    }else{
+      return false
+    }
   }
 
   const winningMovies = [
@@ -91,10 +109,19 @@ const main = (function () {
   }
 
   function restartGame() {
-    player.arrOf = [];
-    computer.arrOf = [];
+    player.arrToWin = [];
+    computer.arrToWin = [];
     curr = player;
+    cleanBoard()
   }
+
+  function cleanBoard(){
+    box.forEach((btn)=>{
+      btn.textContent = ""
+    })
+    myArray.fill(null)
+  }
+
 
 
   return {
