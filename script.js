@@ -1,4 +1,4 @@
-const PubSub = (function() {
+const PubSub = (function () {
   const events = {};
 
   function subscribe(eventName, callback) {
@@ -10,7 +10,7 @@ const PubSub = (function() {
 
   function publish(eventName, data) {
     if (events[eventName]) {
-      events[eventName].forEach(callback => callback(data));
+      events[eventName].forEach((callback) => callback(data));
     }
   }
 
@@ -20,56 +20,49 @@ const PubSub = (function() {
   };
 })();
 
-
-const main = (function (PubSub) {
-
+const main = (function () {
   const myArray = Array(9).fill(null);
-  function getInMarker(num){
-    myArray[num] = curr.marker
-    console.log(myArray)
+  function getInMarker(num) {
+    myArray[num] = curr.marker;
+    console.log(myArray);
   }
-  
 
   const player = {
-    name: 'player',
+    name: "player",
     marker: "x",
-    arrToWin: [],
+    moves: [],
   };
-
-  
 
   const computer = {
     name: "root",
     marker: "o",
-    arrToWin: [],
+    moves: [],
   };
 
   let curr = player;
 
   function gameFlow(index) {
-    if(!checkIfEmpty(index)){
-      return
-    }else{
-      getInMarker(index)
-      curr.arrToWin.push(index);
-      console.log(curr.arrToWin);
+    if (!checkIfEmpty(index)) {
+      return;
+    } else {
+      getInMarker(index);
+      curr.moves.push(index);
+      console.log(curr.moves);
       updateBoxContent(index);
     }
 
-    if (finishGame(curr.arrToWin)) {
-
-      if(curr.name === player){
-        PubSub.publish('gameResult', `${curr.name} win!!!`);
-      }else if(curr.name === computer){
-        PubSub.publish('gameResult', `${curr.name} lose!!!`);
+    if (finishGame(curr.moves)) {
+      if (curr.name === player) {
+        PubSub.publish("gameResult", `${curr.name} win!!!`);
+      } else if (curr.name === computer) {
+        PubSub.publish("gameResult", `${curr.name} lose!!!`);
       }
       restartGame();
-
-    } else if (player.arrToWin.length + computer.arrToWin.length === 9) {
-      PubSub.publish('gameResult', "It's a draw!!!");
+    } else if (player.moves.length + computer.moves.length === 9) {
+      PubSub.publish("gameResult", "It's a draw!!!");
       restartGame();
     } else {
-      PubSub.publish('switchPlayer');
+      PubSub.publish("switchPlayer");
     }
   }
 
@@ -77,22 +70,20 @@ const main = (function (PubSub) {
     const boxToUpdate = document.querySelector(`.box[data-num="${index}"]`);
     boxToUpdate.textContent = curr.marker;
   }
-  
-  
 
-  function switchPlayer(){
-    if(curr===player){
-      curr = computer
-    }else{
-      curr = player
+  function switchPlayer() {
+    if (curr === player) {
+      curr = computer;
+    } else {
+      curr = player;
     }
   }
 
-  function checkIfEmpty(index){
-    if(myArray[index]===null){
-      return true
-    }else{
-      return false
+  function checkIfEmpty(index) {
+    if (myArray[index] === null) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -108,21 +99,19 @@ const main = (function (PubSub) {
   ];
 
   function finishGame(arrToCheck) {
-    return winningMovies.some(winningCombo =>
+    return winningMovies.some((winningCombo) =>
       winningCombo.every((position) => arrToCheck.includes(position))
     );
   }
-  
 
   function restartGame() {
-    player.arrToWin = [];
-    computer.arrToWin = [];
+    player.moves = [];
+    computer.moves = [];
     curr = player;
-    PubSub.publish('cleanBoard');
+    PubSub.publish("cleanBoard");
   }
 
-  PubSub.subscribe('gameFlow', gameFlow);
-
+  PubSub.subscribe("gameFlow", gameFlow);
 
   return {
     PubSub,
@@ -133,17 +122,16 @@ const main = (function (PubSub) {
   };
 })(PubSub);
 
-const interFace = (function(main){
-
+const interFace = (function (main) {
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
   const btn = document.querySelector(".startGame");
   const box = document.querySelectorAll(".box");
 
-  main.PubSub.subscribe('switchPlayer', main.switchPlayer);
-  main.PubSub.subscribe('cleanBoard', cleanBoard);
-  main.PubSub.subscribe('gameResult', showGameResult);
+  main.PubSub.subscribe("switchPlayer", main.switchPlayer);
+  main.PubSub.subscribe("cleanBoard", cleanBoard);
+  main.PubSub.subscribe("gameResult", showGameResult);
 
   btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -159,15 +147,15 @@ const interFace = (function(main){
   box.forEach((btnOdBoard) => {
     btnOdBoard.addEventListener("click", function (e) {
       let num = e.target.dataset.num;
-      if(main.checkIfEmpty(num)) {
-        btnOdBoard.textContent = main.curr.marker
+      if (main.checkIfEmpty(num)) {
+        btnOdBoard.textContent = main.curr.marker;
       }
-      main.PubSub.publish('gameFlow', num);
+      main.PubSub.publish("gameFlow", num);
     });
   });
   function cleanBoard() {
-    box.forEach(btn => {
-      btn.textContent = '';
+    box.forEach((btn) => {
+      btn.textContent = "";
     });
     main.myArray.fill(null);
   }
