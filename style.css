@@ -151,7 +151,7 @@ body{
 
 @media(max-width:600px){
   .text-of-header{
-    font-size: 40px;
+    font-size: 24px;
     padding: 20px;
     text-align: center;
   }
