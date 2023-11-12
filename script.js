@@ -1,30 +1,27 @@
-const main = (function () {
-  const yourName = document.querySelector(".name-player");
-  const popup = document.querySelector(".popup-start");
-  const input = document.querySelector(".input-of-popup");
-  const btn = document.querySelector(".startGame");
-  const box = document.querySelectorAll(".box");
+const PubSub = (function() {
+  const events = {};
 
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const nameUser = input.value;
-    if (nameUser === "") {
-      alert("Enter your name!");
-    } else {
-      popup.style.display = "none";
-      yourName.textContent = `player: ${nameUser}`;
+  function subscribe(eventName, callback) {
+    if (!events[eventName]) {
+      events[eventName] = [];
     }
-  });
+    events[eventName].push(callback);
+  }
 
-  box.forEach((btnOdBoard) => {
-    btnOdBoard.addEventListener("click", function (e) {
-      let num = e.target.dataset.num;
-      if(checkIfEmpty(num)){
-        btnOdBoard.textContent = curr.marker
-      }
-      gameFlow(num);
-    });
-  });
+  function publish(eventName, data) {
+    if (events[eventName]) {
+      events[eventName].forEach(callback => callback(data));
+    }
+  }
+
+  return {
+    subscribe,
+    publish,
+  };
+})();
+
+
+const main = (function (PubSub) {
 
   const myArray = Array(9).fill(null);
   function getInMarker(num){
@@ -34,7 +31,7 @@ const main = (function () {
   
 
   const player = {
-    name: input.value,
+    name: 'player',
     marker: "x",
     arrToWin: [],
   };
@@ -56,24 +53,32 @@ const main = (function () {
       getInMarker(index)
       curr.arrToWin.push(index);
       console.log(curr.arrToWin);
+      updateBoxContent(index);
     }
 
     if (finishGame(curr.arrToWin)) {
 
       if(curr.name === player){
-        alert(`${curr.name} win!!!`);
+        PubSub.publish('gameResult', `${curr.name} win!!!`);
       }else if(curr.name === computer){
-        alert(`${curr.name} lose!!!`);
+        PubSub.publish('gameResult', `${curr.name} lose!!!`);
       }
       restartGame();
 
     } else if (player.arrToWin.length + computer.arrToWin.length === 9) {
-      alert("draw!!!");
+      PubSub.publish('gameResult', "It's a draw!!!");
       restartGame();
     } else {
-      switchPlayer();
+      PubSub.publish('switchPlayer');
     }
   }
+
+  function updateBoxContent(index) {
+    const boxToUpdate = document.querySelector(`.box[data-num="${index}"]`);
+    boxToUpdate.textContent = curr.marker;
+  }
+  
+  
 
   function switchPlayer(){
     if(curr===player){
@@ -103,28 +108,71 @@ const main = (function () {
   ];
 
   function finishGame(arrToCheck) {
-    return winningMovies.some((winningCombo) =>
+    return winningMovies.some(winningCombo =>
       winningCombo.every((position) => arrToCheck.includes(position))
     );
   }
+  
 
   function restartGame() {
     player.arrToWin = [];
     computer.arrToWin = [];
     curr = player;
-    cleanBoard()
+    PubSub.publish('cleanBoard');
   }
 
-  function cleanBoard(){
-    box.forEach((btn)=>{
-      btn.textContent = ""
-    })
-    myArray.fill(null)
-  }
-
+  PubSub.subscribe('gameFlow', gameFlow);
 
 
   return {
-    gameFlow,
+    PubSub,
+    checkIfEmpty,
+    switchPlayer,
+    curr,
+    myArray,
   };
-})();
+})(PubSub);
+
+const interFace = (function(main){
+
+  const yourName = document.querySelector(".name-player");
+  const popup = document.querySelector(".popup-start");
+  const input = document.querySelector(".input-of-popup");
+  const btn = document.querySelector(".startGame");
+  const box = document.querySelectorAll(".box");
+
+  main.PubSub.subscribe('switchPlayer', main.switchPlayer);
+  main.PubSub.subscribe('cleanBoard', cleanBoard);
+  main.PubSub.subscribe('gameResult', showGameResult);
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const nameUser = input.value;
+    if (nameUser === "") {
+      alert("Enter your name!");
+    } else {
+      popup.style.display = "none";
+      yourName.textContent = `player: ${nameUser}`;
+    }
+  });
+
+  box.forEach((btnOdBoard) => {
+    btnOdBoard.addEventListener("click", function (e) {
+      let num = e.target.dataset.num;
+      if(main.checkIfEmpty(num)) {
+        btnOdBoard.textContent = main.curr.marker
+      }
+      main.PubSub.publish('gameFlow', num);
+    });
+  });
+  function cleanBoard() {
+    box.forEach(btn => {
+      btn.textContent = '';
+    });
+    main.myArray.fill(null);
+  }
+
+  function showGameResult(result) {
+    alert(result);
+  }
+})(main);
