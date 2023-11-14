@@ -151,6 +151,7 @@ const interFace = (function () {
 
   RestartBtn.addEventListener('click',()=>{
     main.restartGame()
+    RestartBtn.style.display = 'none';
   })
 
   box.forEach((btnOdBoard) => {
