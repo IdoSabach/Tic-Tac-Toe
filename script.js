@@ -25,6 +25,11 @@ const pubsub = {
 };
 
 function setGame() {
+
+  pubsub.subscribe("insertMarker" ,gameFlow)
+  pubsub.subscribe("resetBoard",restartGame)
+  pubsub.subscribe("checkIfEmpty",checkIfEmpty)
+
   const arrOfBoard = Array(9).fill(null);
   pubsub.publish("arrOfBoard",arrOfBoard)
 
@@ -42,8 +47,6 @@ function setGame() {
 
   let curr = player;
 
-  pubsub.subscribe("insertMarker" ,gameFlow)
-
   function gameFlow(index) {
     if (checkIfEmpty(index)) {
       curr.moves.push(index);
@@ -60,7 +63,7 @@ function setGame() {
       restartGame();
     } else if (player.moves.length + computer.moves.length === 9) {
       pubsub.publish("restartBtn")
-      pubsub.subscribe("resetBoard",restartGame)
+      
     } else {
       switchPlayer()
     }
@@ -79,7 +82,7 @@ function setGame() {
     }
   }
 
-  pubsub.subscribe("checkIfEmpty",checkIfEmpty)
+  
   function checkIfEmpty(index) {
     if (arrOfBoard[index] === null) {
       return true;
@@ -117,6 +120,9 @@ function setGame() {
 
 function dom() {
 
+  pubsub.subscribe("restartBtn",restartBtnChange)
+  pubsub.subscribe("cleanBoard",cleanBoard)
+
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
@@ -124,7 +130,7 @@ function dom() {
   const box = document.querySelectorAll(".box");
   const restartBtn = document.querySelector(".restart-btn"); 
 
-  pubsub.subscribe("restartBtn",restartBtnChange)
+  
   function restartBtnChange(){
     restartBtn.style.display = 'flex';
   }
@@ -156,7 +162,7 @@ function dom() {
     });
   });
 
-  pubsub.subscribe("cleanBoard",cleanBoard)
+  
   function cleanBoard() {
     box.forEach((btn) => {
       btn.textContent = "";
