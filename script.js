@@ -25,10 +25,9 @@ const pubsub = {
 };
 
 function setGame() {
-
-  pubsub.subscribe("insertMarker" ,gameFlow)
-  pubsub.subscribe("resetBoard",restartGame)
-  pubsub.subscribe("checkIfEmpty",checkIfEmpty)
+  pubsub.subscribe("insertMarker", gameFlow);
+  pubsub.subscribe("resetBoard", restartGame);
+  pubsub.subscribe("checkIfEmpty", checkIfEmpty);
 
   const arrOfBoard = Array(9).fill(null);
   // pubsub.publish("arrOfBoard",arrOfBoard)
@@ -48,30 +47,29 @@ function setGame() {
   let curr = player;
 
   function gameFlow(index) {
-
-    if (arrOfBoard[index]===null) {
+    if (arrOfBoard[index] === null) {
       curr.moves.push(parseInt(index));
-      arrOfBoard[index] = curr.marker
+      arrOfBoard[index] = curr.marker;
       // console.log(curr.moves);
       // console.log(arrOfBoard);
       updateBoxContent(index);
-    }else{
-      return
+    } else {
+      return;
     }
 
-    if (curr.moves.length>2){
-      let bool = finishGame(curr.moves)
-      if(bool){
+    if (curr.moves.length > 2) {
+      let bool = finishGame(curr.moves);
+      if (bool) {
         // setTimeout(()=>{
         //   pubsub.publish("restartBtn",curr.name)
         // },1000)
-        pubsub.publish("restartBtn",curr.name)
-      }else if (player.moves.length + computer.moves.length === 9) {
-        pubsub.publish("restartBtn")
+        pubsub.publish("restartBtn", curr.name);
+      } else if (player.moves.length + computer.moves.length === 9) {
+        pubsub.publish("restartBtn");
       }
-    } 
-    
-    switchPlayer()
+    }
+
+    switchPlayer();
   }
 
   function updateBoxContent(index) {
@@ -81,14 +79,13 @@ function setGame() {
 
   function switchPlayer() {
     if (curr === player) {
-      curr = computer;  
+      curr = computer;
     } else {
       curr = player;
     }
-    pubsub.publish("turn",curr.name)
+    pubsub.publish("turn", curr.name);
   }
 
-  
   function checkIfEmpty(index) {
     if (arrOfBoard[index] === null) {
       return true;
@@ -108,7 +105,6 @@ function setGame() {
     [2, 4, 6],
   ];
 
-
   function finishGame(arrToCheck) {
     // console.log("hi" + arrToCheck)
     return winningMovies.some((winningCombo) =>
@@ -121,48 +117,43 @@ function setGame() {
     computer.moves = [];
     curr = player;
     arrOfBoard.fill(null);
-    pubsub.publish("cleanBoard")
+    pubsub.publish("cleanBoard");
   }
 }
 
-
 function dom() {
-
-  pubsub.subscribe("restartBtn",restartBtnChange)
-  pubsub.subscribe("cleanBoard",cleanBoard)
-  pubsub.subscribe("turn",yourTurn)
+  pubsub.subscribe("restartBtn", restartBtnChange);
+  pubsub.subscribe("cleanBoard", cleanBoard);
+  pubsub.subscribe("turn", yourTurn);
 
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
   const input = document.querySelector(".input-of-popup");
   const btn = document.querySelector(".startGame");
   const box = document.querySelectorAll(".box");
-  const restartBtn = document.querySelector(".restart-btn"); 
-  const player = document.querySelector(".name-player")
-  const computer = document.querySelector(".name-computer")
-  const winPopup = document.querySelector(".popup-to-win")
-  const txtWinPopup = document.querySelector(".text-of-popup-win")
+  const restartBtn = document.querySelector(".restart-btn");
+  const player = document.querySelector(".name-player");
+  const computer = document.querySelector(".name-computer");
+  const winPopup = document.querySelector(".popup-to-win");
+  const txtWinPopup = document.querySelector(".text-of-popup-win");
 
-
-  function restartBtnChange(name){
-    restartBtn.style.display = 'flex';
-    winPopup.style.display = 'flex';
-    if(name===undefined){
-      txtWinPopup.textContent = 'draw!!'
-    }else{
-      txtWinPopup.textContent = `${name} won!!!`
+  function restartBtnChange(name) {
+    restartBtn.style.display = "flex";
+    winPopup.style.display = "flex";
+    if (name === undefined) {
+      txtWinPopup.textContent = "draw!!";
+    } else {
+      txtWinPopup.textContent = `${name} won!!!`;
     }
-    
-    
   }
 
-  function yourTurn(curr){
-    if(curr === 'player'){
-      player.style["background-color"] = '#d0d7da'
-      computer.style["background-color"] = '#edf6f9'
-    }else{
-      computer.style["background-color"] = '#d0d7da'
-      player.style["background-color"] = '#edf6f9'
+  function yourTurn(curr) {
+    if (curr === "player") {
+      player.style["background-color"] = "#d0d7da";
+      computer.style["background-color"] = "#edf6f9";
+    } else {
+      computer.style["background-color"] = "#d0d7da";
+      player.style["background-color"] = "#edf6f9";
     }
   }
 
@@ -177,23 +168,22 @@ function dom() {
     }
   });
 
-  restartBtn.addEventListener('click',()=>{
-    pubsub.publish("resetBoard")
-    restartBtn.style.display = 'none';
-    winPopup.style.display = 'none';
+  restartBtn.addEventListener("click", () => {
+    pubsub.publish("resetBoard");
+    restartBtn.style.display = "none";
+    winPopup.style.display = "none";
 
-    player.style["background-color"] = '#d0d7da'
-    computer.style["background-color"] = '#edf6f9'
-  })
+    player.style["background-color"] = "#d0d7da";
+    computer.style["background-color"] = "#edf6f9";
+  });
 
   box.forEach((btnOdBoard) => {
     btnOdBoard.addEventListener("click", function (e) {
       let num = e.target.dataset.num;
-      pubsub.publish("insertMarker",num)
+      pubsub.publish("insertMarker", num);
     });
   });
 
-  
   function cleanBoard() {
     box.forEach((btn) => {
       btn.textContent = "";
@@ -201,7 +191,7 @@ function dom() {
   }
 }
 
-const main = (function(){
-  dom()
-  setGame()
-})()
+const main = (function () {
+  dom();
+  setGame();
+})();
