@@ -28,8 +28,8 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* display: flex; */
-  display: none;
+  display: flex;
+  /* display: none; */
   align-items: center;
   justify-content: center;
   
@@ -43,6 +43,7 @@ body{
   border-radius: 15px;
   border-style: solid;
   border-color: #00454b;
+  animation: fadeIn 0.5s ease-in-out;
   
 }  
 
@@ -177,6 +178,18 @@ body{
   border-style: solid;
   border-color: #00454b;
   padding: 50px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 

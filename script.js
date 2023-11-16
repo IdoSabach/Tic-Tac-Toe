@@ -174,7 +174,6 @@ function dom() {
     } else {
       popup.style.display = "none";
       yourName.textContent = `player: ${nameUser}`;
-      
     }
   });
 
