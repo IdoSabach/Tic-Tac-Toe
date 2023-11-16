@@ -94,6 +94,11 @@ body{
   justify-content: space-between;
   font-size: 40px;
   margin-top: 25px;
+  /* background-color: #d0d7da; */
+}
+
+.name-player{
+  background-color: #d0d7da;
 }
 
 .footer{
@@ -140,12 +145,38 @@ body{
   border-color: #00454b;
   background-color: #d7ecea;
   color: #006d77;
-  /* display: flex; */
-  display: none;
+  display: flex;
+  /* display: none; */
 }
 .restart-btn:hover{
   background-color: #afd4d1;
   cursor: pointer;
+}
+
+.popup-to-win{
+  background: rgba(0,0,0,0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-popup-to-win{
+  background-color: #edf6f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+  border-style: solid;
+  border-color: #00454b;
+  padding: 50px;
 }
 
 

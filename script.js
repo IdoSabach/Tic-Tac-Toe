@@ -62,12 +62,12 @@ function setGame() {
     if (curr.moves.length>2){
       let bool = finishGame(curr.moves)
       if(bool){
-        alert(`${curr.name} win!!!`)
-        pubsub.publish("restartBtn")
+        pubsub.publish("restartBtn",curr.name)
       }else if (player.moves.length + computer.moves.length === 9) {
         pubsub.publish("restartBtn")
       }
     } 
+    
     switchPlayer()
   }
 
@@ -78,10 +78,11 @@ function setGame() {
 
   function switchPlayer() {
     if (curr === player) {
-      curr = computer;
+      curr = computer;  
     } else {
       curr = player;
     }
+    pubsub.publish("turn",curr.name)
   }
 
   
@@ -126,6 +127,7 @@ function dom() {
 
   pubsub.subscribe("restartBtn",restartBtnChange)
   pubsub.subscribe("cleanBoard",cleanBoard)
+  pubsub.subscribe("turn",yourTurn)
 
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
@@ -133,9 +135,26 @@ function dom() {
   const btn = document.querySelector(".startGame");
   const box = document.querySelectorAll(".box");
   const restartBtn = document.querySelector(".restart-btn"); 
+  const player = document.querySelector(".name-player")
+  const computer = document.querySelector(".name-computer")
+  const winPopup = document.querySelector(".popup-to-win")
+  const txtWinPopup = document.querySelector(".text-of-popup-win")
 
-  function restartBtnChange(){
+
+  function restartBtnChange(name){
     restartBtn.style.display = 'flex';
+    winPopup.style.display = 'flex';
+    txtWinPopup.textContent = `${name} win!!!`
+  }
+
+  function yourTurn(curr){
+    if(curr === 'player'){
+      player.style["background-color"] = '#d0d7da'
+      computer.style["background-color"] = '#edf6f9'
+    }else{
+      computer.style["background-color"] = '#d0d7da'
+      player.style["background-color"] = '#edf6f9'
+    }
   }
 
   btn.addEventListener("click", (e) => {
@@ -146,12 +165,17 @@ function dom() {
     } else {
       popup.style.display = "none";
       yourName.textContent = `player: ${nameUser}`;
+      
     }
   });
 
   restartBtn.addEventListener('click',()=>{
     pubsub.publish("resetBoard")
     restartBtn.style.display = 'none';
+    winPopup.style.display = 'none';
+
+    player.style["background-color"] = '#d0d7da'
+    computer.style["background-color"] = '#edf6f9'
   })
 
   box.forEach((btnOdBoard) => {
