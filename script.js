@@ -150,7 +150,7 @@ function dom() {
     if(name===undefined){
       txtWinPopup.textContent = 'draw!!'
     }else{
-      txtWinPopup.textContent = `${name} win!!!`
+      txtWinPopup.textContent = `${name} won!!!`
     }
     
     
@@ -173,7 +173,7 @@ function dom() {
       alert("Enter your name!");
     } else {
       popup.style.display = "none";
-      yourName.textContent = `player: ${nameUser}`;
+      yourName.textContent = `player: ${nameUser} (x)`;
     }
   });
 

@@ -89,17 +89,25 @@ body{
 }
 
 .name-of-player{
-  min-width: 500px;
+  min-width: 650px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 40px;
   margin-top: 25px;
   /* background-color: #d0d7da; */
+  border-radius: 8px;
 }
 
 .name-player{
   background-color: #d0d7da;
+  border-radius: 30px;
+  padding: 12px;
+}
+
+.name-computer{
+  border-radius: 30px;
+  padding: 12px;
 }
 
 .footer{
