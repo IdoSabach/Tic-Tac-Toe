@@ -1,20 +1,20 @@
 const pubsub = {
   events: {},
   subscribe(evName, fn) {
-    console.log(`PUBSUB: someone just subscribed to know about ${evName}`);
+    // console.log(`PUBSUB: someone just subscribed to know about ${evName}`);
     // add an event with a name as new or to existing list
     this.events[evName] = this.events[evName] || [];
     this.events[evName].push(fn);
   },
   unsubscribe(evName, fn) {
-    console.log(`PUBSUB: someone just UNsubscribed from ${evName}`);
+    // console.log(`PUBSUB: someone just UNsubscribed from ${evName}`);
     // remove an event function by name
     if (this.events[evName]) {
       this.events[evName] = this.events[evName].filter((f) => f !== fn);
     }
   },
   publish(evName, data) {
-    console.log(`PUBSUB: Making an broadcast about ${evName} with ${data}`);
+    // console.log(`PUBSUB: Making an broadcast about ${evName} with ${data}`);
     // emit|publish|announce the event to anyone who is subscribed
     if (this.events[evName]) {
       this.events[evName].forEach((f) => {
@@ -52,8 +52,8 @@ function setGame() {
     if (arrOfBoard[index]===null) {
       curr.moves.push(parseInt(index));
       arrOfBoard[index] = curr.marker
-      console.log(curr.moves);
-      console.log(arrOfBoard);
+      // console.log(curr.moves);
+      // console.log(arrOfBoard);
       updateBoxContent(index);
     }else{
       return
@@ -106,7 +106,7 @@ function setGame() {
 
 
   function finishGame(arrToCheck) {
-    console.log("hi" + arrToCheck)
+    // console.log("hi" + arrToCheck)
     return winningMovies.some((winningCombo) =>
       winningCombo.every((position) => arrToCheck.includes(position))
     );
