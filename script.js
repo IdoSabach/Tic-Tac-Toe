@@ -62,6 +62,9 @@ function setGame() {
     if (curr.moves.length>2){
       let bool = finishGame(curr.moves)
       if(bool){
+        // setTimeout(()=>{
+        //   pubsub.publish("restartBtn",curr.name)
+        // },1000)
         pubsub.publish("restartBtn",curr.name)
       }else if (player.moves.length + computer.moves.length === 9) {
         pubsub.publish("restartBtn")
@@ -144,7 +147,13 @@ function dom() {
   function restartBtnChange(name){
     restartBtn.style.display = 'flex';
     winPopup.style.display = 'flex';
-    txtWinPopup.textContent = `${name} win!!!`
+    if(name===undefined){
+      txtWinPopup.textContent = 'draw!!'
+    }else{
+      txtWinPopup.textContent = `${name} win!!!`
+    }
+    
+    
   }
 
   function yourTurn(curr){
