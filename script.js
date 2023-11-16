@@ -31,7 +31,7 @@ function setGame() {
   pubsub.subscribe("checkIfEmpty",checkIfEmpty)
 
   const arrOfBoard = Array(9).fill(null);
-  pubsub.publish("arrOfBoard",arrOfBoard)
+  // pubsub.publish("arrOfBoard",arrOfBoard)
 
   const player = {
     name: "player",
@@ -48,25 +48,27 @@ function setGame() {
   let curr = player;
 
   function gameFlow(index) {
-    if (checkIfEmpty(index)) {
-      curr.moves.push(index);
+
+    if (arrOfBoard[index]===null) {
+      curr.moves.push(parseInt(index));
+      arrOfBoard[index] = curr.marker
       console.log(curr.moves);
+      console.log(arrOfBoard);
       updateBoxContent(index);
+    }else{
+      return
     }
 
-    if (finishGame(curr.moves)) {
-      if (curr.name === player.name) {
+    if (curr.moves.length>2){
+      let bool = finishGame(curr.moves)
+      if(bool){
         alert(`${curr.name} win!!!`)
-      } else if (curr.name === computer.name) {
-        alert(`${curr.name} lose!!!`)
+        pubsub.publish("restartBtn")
+      }else if (player.moves.length + computer.moves.length === 9) {
+        pubsub.publish("restartBtn")
       }
-      restartGame();
-    } else if (player.moves.length + computer.moves.length === 9) {
-      pubsub.publish("restartBtn")
-      
-    } else {
-      switchPlayer()
-    }
+    } 
+    switchPlayer()
   }
 
   function updateBoxContent(index) {
@@ -87,7 +89,7 @@ function setGame() {
     if (arrOfBoard[index] === null) {
       return true;
     } else {
-      return false;
+      return true;
     }
   }
 
@@ -102,7 +104,9 @@ function setGame() {
     [2, 4, 6],
   ];
 
+
   function finishGame(arrToCheck) {
+    console.log("hi" + arrToCheck)
     return winningMovies.some((winningCombo) =>
       winningCombo.every((position) => arrToCheck.includes(position))
     );
@@ -130,7 +134,6 @@ function dom() {
   const box = document.querySelectorAll(".box");
   const restartBtn = document.querySelector(".restart-btn"); 
 
-  
   function restartBtnChange(){
     restartBtn.style.display = 'flex';
   }
@@ -153,12 +156,8 @@ function dom() {
 
   box.forEach((btnOdBoard) => {
     btnOdBoard.addEventListener("click", function (e) {
-      
       let num = e.target.dataset.num;
       pubsub.publish("insertMarker",num)
-      if (pubsub.publish("checkIfEmpty")) {
-        btnOdBoard.textContent = curr.marker;
-      }
     });
   });
 
