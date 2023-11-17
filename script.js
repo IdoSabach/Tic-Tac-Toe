@@ -33,7 +33,6 @@ function setGame() {
   pubsub.subscribe("getNamePlayerTwo", getNamePlayerTwo);
 
   const arrOfBoard = Array(9).fill(null);
-  // pubsub.publish("arrOfBoard",arrOfBoard)
 
   function getNamePlayerOne(name){
     player.name= name
@@ -111,7 +110,6 @@ function setGame() {
   ];
 
   function finishGame(arrToCheck) {
-    // console.log("hi" + arrToCheck)
     return winningMovies.some((winningCombo) =>
       winningCombo.every((position) => arrToCheck.includes(position))
     );
