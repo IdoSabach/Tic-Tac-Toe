@@ -160,7 +160,7 @@ function dom() {
   }
 
   function yourTurn(curr) {
-    if (curr === "player") {
+    if (curr === inputOne.value) {
       player.style["background-color"] = "#d0d7da";
       computer.style["background-color"] = "#edf6f9";
     } else {
