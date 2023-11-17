@@ -28,6 +28,7 @@ function setGame() {
   pubsub.subscribe("insertMarker", gameFlow);
   pubsub.subscribe("resetBoard", restartGame);
   pubsub.subscribe("checkIfEmpty", checkIfEmpty);
+  pubsub.subscribe("getBox", getBox);
 
   const arrOfBoard = Array(9).fill(null);
   // pubsub.publish("arrOfBoard",arrOfBoard)
@@ -46,13 +47,16 @@ function setGame() {
 
   let curr = player;
 
+  function getBox(btn) {
+    btn.textContent = curr.marker;
+  }
+
+
   function gameFlow(index) {
     if (arrOfBoard[index] === null) {
       curr.moves.push(parseInt(index));
       arrOfBoard[index] = curr.marker;
-      // console.log(curr.moves);
-      // console.log(arrOfBoard);
-      updateBoxContent(index);
+      pubsub.publish("updateBoxContent", index);
     } else {
       return;
     }
@@ -60,9 +64,6 @@ function setGame() {
     if (curr.moves.length > 2) {
       let bool = finishGame(curr.moves);
       if (bool) {
-        // setTimeout(()=>{
-        //   pubsub.publish("restartBtn",curr.name)
-        // },1000)
         pubsub.publish("restartBtn", curr.name);
       } else if (player.moves.length + computer.moves.length === 9) {
         pubsub.publish("restartBtn");
@@ -70,11 +71,6 @@ function setGame() {
     }
 
     switchPlayer();
-  }
-
-  function updateBoxContent(index) {
-    const boxToUpdate = document.querySelector(`.box[data-num="${index}"]`);
-    boxToUpdate.textContent = curr.marker;
   }
 
   function switchPlayer() {
@@ -125,6 +121,7 @@ function dom() {
   pubsub.subscribe("restartBtn", restartBtnChange);
   pubsub.subscribe("cleanBoard", cleanBoard);
   pubsub.subscribe("turn", yourTurn);
+  pubsub.subscribe("updateBoxContent", updateBoxContent);
 
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
@@ -136,6 +133,11 @@ function dom() {
   const computer = document.querySelector(".name-computer");
   const winPopup = document.querySelector(".popup-to-win");
   const txtWinPopup = document.querySelector(".text-of-popup-win");
+
+  function updateBoxContent(index) {
+    const boxToUpdate = document.querySelector(`.box[data-num="${index}"]`);
+    pubsub.publish("getBox", boxToUpdate);
+  }
 
   function restartBtnChange(name) {
     restartBtn.style.display = "flex";
@@ -180,9 +182,13 @@ function dom() {
   box.forEach((btnOdBoard) => {
     btnOdBoard.addEventListener("click", function (e) {
       let num = e.target.dataset.num;
-      pubsub.publish("insertMarker", num);
+      playerMove(num)
     });
   });
+
+  function playerMove(num){
+    pubsub.publish("insertMarker", num);
+  }
 
   function cleanBoard() {
     box.forEach((btn) => {
