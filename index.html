@@ -16,8 +16,8 @@
   <body>
     <header class="header">Tic Tac Toe</header>
     <nav class="name-of-player">
-      <div class="name-player">player: *****</div>
-      <div class="name-computer">computer: root (o)</div>
+      <div class="name-player">player 1: ***** (X)</div>
+      <div class="name-computer">player 2 : ***** (O)</div>
     </nav>
     <main class="main">
       <div class="board-game">
@@ -52,10 +52,18 @@
           <form class="form" action="">
             <div class="mini-input">
               <input
-                class="input-of-popup"
+                class="input-of-popup-player-1"
                 type="text"
                 name="input-of-popup"
-                placeholder="What is your name?"
+                placeholder="name player 1?"
+                maxlength="5"
+                required
+              />
+              <input
+                class="input-of-popup-player-2"
+                type="text"
+                name="input-of-popup"
+                placeholder="name player 2?"
                 maxlength="5"
                 required
               />

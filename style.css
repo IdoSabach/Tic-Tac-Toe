@@ -60,6 +60,8 @@ body{
 
 .mini-input{
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
 }
  
 .startGame{
@@ -73,11 +75,12 @@ body{
   color: #006d77;
 }
 
-.input-of-popup{
-  font-size: 20px;
+.input-of-popup-player-1,.input-of-popup-player-2{
+  font-size: 24px;
   border-radius: 10px;
   border-style: none;
   padding-left: 5px;
+  margin:10px;
 }
 
 .header{

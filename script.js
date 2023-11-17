@@ -125,7 +125,8 @@ function dom() {
 
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
-  const input = document.querySelector(".input-of-popup");
+  const inputOne = document.querySelector(".input-of-popup-player-1");
+  const inputTwo = document.querySelector(".input-of-popup-player-2");
   const btn = document.querySelector(".startGame");
   const box = document.querySelectorAll(".box");
   const restartBtn = document.querySelector(".restart-btn");
@@ -161,12 +162,15 @@ function dom() {
 
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-    const nameUser = input.value;
-    if (nameUser === "") {
+    const nameUserOne = inputOne.value;
+    const nameUserTwo = inputTwo.value;
+    if (nameUserOne === "" || nameUserTwo === "") {
       alert("Enter your name!");
     } else {
       popup.style.display = "none";
-      yourName.textContent = `player: ${nameUser} (x)`;
+      yourName.textContent = `player 1: ${nameUserOne} (X)`;
+      computer.textContent = `player 2 : ${nameUserTwo} (O)`;
+      
     }
   });
 
