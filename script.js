@@ -29,19 +29,28 @@ function setGame() {
   pubsub.subscribe("resetBoard", restartGame);
   pubsub.subscribe("checkIfEmpty", checkIfEmpty);
   pubsub.subscribe("getBox", getBox);
+  pubsub.subscribe("getNamePlayerOne", getNamePlayerOne);
+  pubsub.subscribe("getNamePlayerTwo", getNamePlayerTwo);
 
   const arrOfBoard = Array(9).fill(null);
   // pubsub.publish("arrOfBoard",arrOfBoard)
 
+  function getNamePlayerOne(name){
+    player.name= name
+  }
+  function getNamePlayerTwo(name){
+    computer.name= name
+  }
+
   const player = {
-    name: "player",
-    marker: "x",
+    name: "",
+    marker: "X",
     moves: [],
   };
 
   const computer = {
-    name: "root",
-    marker: "o",
+    name: "",
+    marker: "O",
     moves: [],
   };
 
@@ -163,7 +172,9 @@ function dom() {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     const nameUserOne = inputOne.value;
+    pubsub.publish("getNamePlayerOne",nameUserOne)
     const nameUserTwo = inputTwo.value;
+    pubsub.publish("getNamePlayerTwo",nameUserTwo)
     if (nameUserOne === "" || nameUserTwo === "") {
       alert("Enter your name!");
     } else {
