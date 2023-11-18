@@ -34,11 +34,11 @@ function setGame() {
 
   const arrOfBoard = Array(9).fill(null);
 
-  function getNamePlayerOne(name){
-    player.name= name
+  function getNamePlayerOne(name) {
+    player.name = name;
   }
-  function getNamePlayerTwo(name){
-    computer.name= name
+  function getNamePlayerTwo(name) {
+    computer.name = name;
   }
 
   const player = {
@@ -53,12 +53,14 @@ function setGame() {
     moves: [],
   };
 
+  let scorePlayer = 0;
+  let scoreComputer = 0;
+
   let curr = player;
 
   function getBox(btn) {
     btn.textContent = curr.marker;
   }
-
 
   function gameFlow(index) {
     if (arrOfBoard[index] === null) {
@@ -72,12 +74,18 @@ function setGame() {
     if (curr.moves.length > 2) {
       let bool = finishGame(curr.moves);
       if (bool) {
+        if (curr.name === player.name) {
+          scorePlayer += 1;
+          pubsub.publish("updatePlayer",scorePlayer)
+        } else if (curr.name === computer.name) {
+          scoreComputer += 1;
+          pubsub.publish("updateComputer",scoreComputer)
+        }
         pubsub.publish("restartBtn", curr.name);
       } else if (player.moves.length + computer.moves.length === 9) {
         pubsub.publish("restartBtn");
       }
     }
-
     switchPlayer();
   }
 
@@ -129,6 +137,9 @@ function dom() {
   pubsub.subscribe("cleanBoard", cleanBoard);
   pubsub.subscribe("turn", yourTurn);
   pubsub.subscribe("updateBoxContent", updateBoxContent);
+  
+  pubsub.subscribe("updatePlayer", updatePlayer);
+  pubsub.subscribe("updateComputer", updateComputer);
 
   const yourName = document.querySelector(".name-player");
   const popup = document.querySelector(".popup-start");
@@ -141,6 +152,16 @@ function dom() {
   const computer = document.querySelector(".name-computer");
   const winPopup = document.querySelector(".popup-to-win");
   const txtWinPopup = document.querySelector(".text-of-popup-win");
+  const scorePlayer = document.querySelector(".score-player");
+  const scoreComputer = document.querySelector(".score-computer");
+
+  function updatePlayer(x){
+    scorePlayer.textContent = `Score: ${x}`
+  }
+
+  function updateComputer(x){
+    scoreComputer.textContent = `Score: ${x}`
+  }
 
   function updateBoxContent(index) {
     const boxToUpdate = document.querySelector(`.box[data-num="${index}"]`);
@@ -170,16 +191,15 @@ function dom() {
   btn.addEventListener("click", (e) => {
     e.preventDefault();
     const nameUserOne = inputOne.value;
-    pubsub.publish("getNamePlayerOne",nameUserOne)
+    pubsub.publish("getNamePlayerOne", nameUserOne);
     const nameUserTwo = inputTwo.value;
-    pubsub.publish("getNamePlayerTwo",nameUserTwo)
+    pubsub.publish("getNamePlayerTwo", nameUserTwo);
     if (nameUserOne === "" || nameUserTwo === "") {
       alert("Enter your name!");
     } else {
       popup.style.display = "none";
       yourName.textContent = `player 1: ${nameUserOne} (X)`;
       computer.textContent = `player 2 : ${nameUserTwo} (O)`;
-      
     }
   });
 
@@ -195,11 +215,11 @@ function dom() {
   box.forEach((btnOdBoard) => {
     btnOdBoard.addEventListener("click", function (e) {
       let num = e.target.dataset.num;
-      playerMove(num)
+      playerMove(num);
     });
   });
 
-  function playerMove(num){
+  function playerMove(num) {
     pubsub.publish("insertMarker", num);
   }
 
