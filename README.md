@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 
-The classic game that everyone loves, built by pub/sub architecture with factory and IIFE functions to strengthen my control of these important tools.
+Tic Tac Toe, a classic everyone knows... built using the PubSub architecture, Factory functions and IIFE all to reinforce my understanding with these core concepts.
 Enjoy!
 
 https://idosabach.github.io/Tic-Tac-Toe/
