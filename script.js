@@ -56,32 +56,31 @@ function setGame() {
   let scorePlayer = 0;
   let scoreComputer = 0;
 
-  let curr = player;
+  let currentPlayer = player;
 
-  function getBox(btn) {
-    btn.textContent = curr.marker;
+  function getBox(boxOnBoard) {
+    boxOnBoard.textContent = currentPlayer.marker;
   }
 
   function gameFlow(index) {
     if (arrOfBoard[index] === null) {
-      curr.moves.push(parseInt(index));
-      arrOfBoard[index] = curr.marker;
+      currentPlayer.moves.push(parseInt(index));
+      arrOfBoard[index] = currentPlayer.marker;
       pubsub.publish("updateBoxContent", index);
     } else {
       return;
     }
 
-    if (curr.moves.length > 2) {
-      let bool = finishGame(curr.moves);
-      if (bool) {
-        if (curr.name === player.name) {
+    if (currentPlayer.moves.length > 2) {
+      if (finishGame(currentPlayer.moves)) {
+        if (currentPlayer.name === player.name) {
           scorePlayer += 1;
           pubsub.publish("updatePlayer",scorePlayer)
-        } else if (curr.name === computer.name) {
+        } else if (currentPlayer.name === computer.name) {
           scoreComputer += 1;
           pubsub.publish("updateComputer",scoreComputer)
         }
-        pubsub.publish("restartBtn", curr.name);
+        pubsub.publish("restartBtn", currentPlayer.name);
       } else if (player.moves.length + computer.moves.length === 9) {
         pubsub.publish("restartBtn");
       }
@@ -90,12 +89,12 @@ function setGame() {
   }
 
   function switchPlayer() {
-    if (curr === player) {
-      curr = computer;
+    if (currentPlayer === player) {
+      currentPlayer = computer;
     } else {
-      curr = player;
+      currentPlayer = player;
     }
-    pubsub.publish("turn", curr.name);
+    pubsub.publish("turn", currentPlayer.name);
   }
 
   function checkIfEmpty(index) {
@@ -126,7 +125,7 @@ function setGame() {
   function restartGame() {
     player.moves = [];
     computer.moves = [];
-    curr = player;
+    currentPlayer = player;
     arrOfBoard.fill(null);
     pubsub.publish("cleanBoard");
   }
@@ -178,8 +177,8 @@ function dom() {
     }
   }
 
-  function yourTurn(curr) {
-    if (curr === inputOne.value) {
+  function yourTurn(currentPlayer) {
+    if (currentPlayer === inputOne.value) {
       player.style["background-color"] = "#d0d7da";
       computer.style["background-color"] = "#edf6f9";
     } else {
