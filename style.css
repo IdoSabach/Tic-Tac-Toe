@@ -220,16 +220,17 @@ body{
   }
 
   .header{
-    font-size: 52px;
+    font-size: 40px;
   }
 
   .name-of-player{
-    font-size: 28px;
+    font-size: 20px;
     min-width: 350px;
   }
 
   .box{
-    font-size: 60px;
+    font-size: 40px;
+    font-weight: 700;
     width: 100px;
     height: 100px;
   }
