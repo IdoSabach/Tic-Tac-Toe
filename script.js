@@ -172,9 +172,9 @@ function dom() {
     restartBtn.style.display = "flex";
     winPopup.style.display = "flex";
     if (name === undefined) {
-      txtWinPopup.textContent = "draw!!";
+      txtWinPopup.textContent = "draw!";
     } else {
-      txtWinPopup.textContent = `${name} won!!!`;
+      txtWinPopup.textContent = `${name} won!`;
     }
   }
 
