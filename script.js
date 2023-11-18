@@ -154,12 +154,12 @@ function dom() {
   const scorePlayer = document.querySelector(".score-player");
   const scoreComputer = document.querySelector(".score-computer");
 
-  function updatePlayer(x){
-    scorePlayer.textContent = `Score: ${x}`
+  function updatePlayer(score){
+    scorePlayer.textContent = `Score: ${score}`
   }
 
-  function updateComputer(x){
-    scoreComputer.textContent = `Score: ${x}`
+  function updateComputer(score){
+    scoreComputer.textContent = `Score: ${score}`
   }
 
   function updateBoxContent(index) {
